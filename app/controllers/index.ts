@@ -1,0 +1,1 @@
+export { default as eventController } from './event.controller'

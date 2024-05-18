@@ -1,0 +1,23 @@
+import path from "path";
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import router from "./routes/root";
+import { ErrorsHandlerMiddleware } from "./middlewares";
+
+dotenv.config({
+  path: path.join(__dirname, "..", `.env.${process.env.NODE_ENV}`),
+});
+
+const app = express();
+app.use(express.json());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.WEB_APP_URL,
+  })
+);
+app.use("/api", router);
+app.use(ErrorsHandlerMiddleware);
+
+export default app;

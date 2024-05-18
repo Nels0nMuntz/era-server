@@ -1,0 +1,1 @@
+export { ErrorsHandlerMiddleware } from './errorsHandler.middleware'

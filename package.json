@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "env-cmd -f .env.development nodemon ./server.ts",
     "start": "env-cmd -f .env.production node ./dist/index.js",
-    "build": "npx typescript --skipLibCheck"
+    "build": "npx typescript --skipLibCheck",
+    "seed:dev": "env-cmd -f .env.development ts-node ./app/seeds/seedEvents.ts"
   },
   "author": "",
   "license": "ISC",
@@ -14,7 +15,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "env-cmd": "^10.1.0",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

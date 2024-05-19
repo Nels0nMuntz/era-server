@@ -1,17 +1,31 @@
 import express from "express";
+import { eventController } from "../controllers";
+import {
+  getEventParticipantsValidator,
+  getEventsValidator,
+  registerUserValidator,
+} from "../validators";
+import { validationMiddleware } from "../middlewares";
 
 const eventRouter = express.Router();
 
-eventRouter.get("/", (req, res) => {
-  res.status(200).json({ path: "/events" });
-});
-eventRouter.get("/:id", (req, res) => {
-  const {id} = req.params
-  res.status(200).json({ path: `/events/${id}` });
-});
-eventRouter.post("/:id/register", (req, res) => {
-  const {id} = req.params
-  res.status(200).json({ path: `/events/${id}/register` });
-});
+eventRouter.get(
+  "/",
+  getEventsValidator,
+  validationMiddleware,
+  eventController.getEvents
+);
+eventRouter.get(
+  "/:id",
+  getEventParticipantsValidator,
+  validationMiddleware,
+  eventController.getEventParticipants
+);
+eventRouter.post(
+  "/:id/register",
+  registerUserValidator,
+  validationMiddleware,
+  eventController.registerUser
+);
 
 export default eventRouter;

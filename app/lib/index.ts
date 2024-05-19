@@ -1,2 +1,2 @@
 export { connectDB } from './db';
-export { NotFoundException, BadRequestException } from './Exception';
+export { Exception, NotFoundException, BadRequestException, UnprocessableEntityException } from './Exception';

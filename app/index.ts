@@ -3,7 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import router from "./routes/root";
-import { ErrorsHandlerMiddleware } from "./middlewares";
+import { errorsHandlerMiddleware } from "./middlewares";
 
 dotenv.config({
   path: path.join(__dirname, "..", `.env.${process.env.NODE_ENV}`),
@@ -18,6 +18,6 @@ app.use(
   })
 );
 app.use("/api", router);
-app.use(ErrorsHandlerMiddleware);
+app.use(errorsHandlerMiddleware);
 
 export default app;

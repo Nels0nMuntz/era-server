@@ -28,11 +28,11 @@ async function getEvents(
   next: NextFunction
 ) {
   try {
-    const defaultPage = 1;
-    const defaultLimit = 10;
-    const page = Number(req.query.page) || defaultPage;
-    const limit = Number(req.query.limit) || defaultLimit;
-    const response = await eventService.getEvents(page, limit);
+    const page = Number(req.query.page);
+    const limit = Number(req.query.limit);
+    const sortBy = req.query.sortBy?.toString();
+    const orderBy = req.query.orderBy?.toString();
+    const response = await eventService.getEvents(page, limit, sortBy, orderBy);
     return res.status(200).json(response);
   } catch (error) {
     next(error);

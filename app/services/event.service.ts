@@ -22,10 +22,12 @@ async function getEvent(eventId: string) {
 
 async function getEvents(
   page: number,
-  limit: number
+  limit: number,
+  sortBy?: string,
+  orderBy?: string
 ) {
   const skip = (page - 1) * limit;
-  const { events, count } = await eventRepository.findAll(skip, limit);
+  const { events, count } = await eventRepository.findAll(skip, limit, sortBy, orderBy);
   return {
     events: events.map((event) => {
       return {

@@ -1,10 +1,21 @@
+import { SortOrder } from "mongoose";
 import { EventModel } from "../models";
 
-async function findAll(skip: number, limit: number) {
+async function findAll(
+  skip: number,
+  limit: number,
+  sortBy?: string,
+  orderBy?: string
+) {
+  let sortObject: { [key: string]: SortOrder } = { createdAt: "desc" };
+  if (sortBy) {
+    sortObject = {};
+    sortObject[sortBy] = (orderBy as SortOrder) || "asc";
+  }
   const events = await EventModel.find()
     .skip(skip)
     .limit(limit)
-    .sort({ createdAt: -1 });
+    .sort(sortObject);
   const count = await EventModel.countDocuments();
   return {
     events,

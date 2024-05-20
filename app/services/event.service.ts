@@ -1,12 +1,41 @@
-import { EventsResponse, RegisterUserRequest } from "../types";
+import {
+  RegisterUserRequest,
+} from "../types";
 import { eventRepository, userRepository } from "../repositories";
 import { BadRequestException, NotFoundException } from "../lib";
 
-async function getEvents(page: number, limit: number): Promise<EventsResponse> {
+async function getEvent(eventId: string) {
+  const event = await eventRepository.findById(eventId);
+  if (!event) {
+    throw new NotFoundException("Event not found");
+  }
+  return {
+    event: {
+      id: event._id.toString(),      
+      title: event.title,      
+      description: event.description,      
+      organizer: event.organizer,      
+      eventDate: event.eventDate,     
+    }
+  };
+}
+
+async function getEvents(
+  page: number,
+  limit: number
+) {
   const skip = (page - 1) * limit;
   const { events, count } = await eventRepository.findAll(skip, limit);
   return {
-    events: events.map(event => event.toObject()),
+    events: events.map((event) => {
+      return {
+        id: event._id,
+        title: event.title,
+        description: event.description,
+        organizer: event.organizer,
+        eventDate: event.eventDate,
+      };
+    }),
     currentPage: page,
     totalPages: Math.ceil(count / limit),
   };
@@ -41,7 +70,7 @@ async function registerUser(data: RegisterUserRequest) {
     if (!event) {
       throw new NotFoundException("Event not found");
     }
-    
+
     await userRepository.updateEvents(newUser._id as unknown as string, {
       id: data.eventId,
       eventSource: data.eventSource,
@@ -62,6 +91,7 @@ async function getEventParticipants(eventId: string) {
 }
 
 export default {
+  getEvent,
   getEvents,
   registerUser,
   getEventParticipants,

@@ -2,14 +2,29 @@ import { NextFunction, Request, Response } from "express";
 import { eventService } from "../services";
 import {
   EventSource,
-  EventsResponse,
+  GetEventResponse,
+  GetEventsResponse,
   RegisterUserRequest,
   User,
 } from "../types";
 
+async function getEvent(
+  req: Request,
+  res: Response<GetEventResponse>,
+  next: NextFunction
+) {
+  try {
+    const { id } = req.params;
+    const event = await eventService.getEvent(id);    
+    return res.status(200).json(event);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function getEvents(
   req: Request,
-  res: Response<EventsResponse>,
+  res: Response<GetEventsResponse>,
   next: NextFunction
 ) {
   try {
@@ -51,7 +66,7 @@ async function getEventParticipants(
 ) {
   try {
     const { id } = req.params;
-    const participants = await eventService.getEventParticipants(id);
+    const participants = await eventService.getEventParticipants(id);    
     return res.status(200).json(participants);
   } catch (error) {
     next(error);
@@ -59,6 +74,7 @@ async function getEventParticipants(
 }
 
 export default {
+  getEvent,
   getEvents,
   registerUser,
   getEventParticipants,

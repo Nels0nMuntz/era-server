@@ -32,17 +32,6 @@ const eventSchema = new Schema<Event>(
   }
 );
 
-eventSchema.set("toObject", {
-  transform: (doc, rec) => {
-    rec.id = rec._id;
-    delete rec._id;
-    delete rec.__v;
-    delete rec.createdAt;
-    delete rec.updatedAt;
-    delete rec.participants;
-  },
-});
-
 const EventModel = model("Events", eventSchema);
 
 export interface EventDocument extends Document, Event {}

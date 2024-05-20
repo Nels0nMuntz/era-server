@@ -14,10 +14,13 @@ export enum EventSource {
   FoundMyself = "Found myself",
 }
 
-export interface EventsResponse {
-  events: Event[];
+export interface GetEventsResponse {
+  events: Omit<Event, "participants">[];
   currentPage: number;
   totalPages: number;
+}
+export interface GetEventResponse {
+  event: Omit<Event, "participants"> & { id: string };
 }
 
 export interface RegisterUserRequest {

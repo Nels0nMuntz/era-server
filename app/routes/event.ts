@@ -1,9 +1,10 @@
 import express from "express";
 import { eventController } from "../controllers";
 import {
-  getEventParticipantsValidator,
+  getEventValidator,
   getEventsValidator,
   registerUserValidator,
+  getEventParticipantsValidator,
 } from "../validators";
 import { validationMiddleware } from "../middlewares";
 
@@ -17,6 +18,12 @@ eventRouter.get(
 );
 eventRouter.get(
   "/:id",
+  getEventValidator,
+  validationMiddleware,
+  eventController.getEvent
+);
+eventRouter.get(
+  "/:id/participants",
   getEventParticipantsValidator,
   validationMiddleware,
   eventController.getEventParticipants

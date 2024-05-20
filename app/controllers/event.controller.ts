@@ -66,7 +66,8 @@ async function getEventParticipants(
 ) {
   try {
     const { id } = req.params;
-    const participants = await eventService.getEventParticipants(id);    
+    const search = req.query.search?.toString();
+    const participants = await eventService.getEventParticipants(id, search);    
     return res.status(200).json(participants);
   } catch (error) {
     next(error);

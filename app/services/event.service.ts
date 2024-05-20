@@ -55,7 +55,7 @@ async function registerUser(data: RegisterUserRequest) {
       ({ email }) => email === data.user.email
     );
     if (participant) {
-      throw new BadRequestException("User has already registered to the event");
+      throw new BadRequestException("Email has already been taken");
     }
 
     await userRepository.updateEvents(userByEmail._id as unknown as string, {
@@ -84,12 +84,13 @@ async function registerUser(data: RegisterUserRequest) {
   }
 }
 
-async function getEventParticipants(eventId: string) {
+async function getEventParticipants(eventId: string, search?: string) {
   const event = await eventRepository.findById(eventId);
   if (!event) {
     throw new NotFoundException("Event not found");
   }
-  return event.toObject().participants;
+  const participants = await userRepository.findEventParticipants(eventId, search)
+  return participants.map(doc => doc.toObject());
 }
 
 export default {

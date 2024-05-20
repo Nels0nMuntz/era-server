@@ -11,12 +11,7 @@ dotenv.config({
 
 const app = express();
 app.use(express.json());
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.WEB_APP_URL,
-  })
-);
+app.use(cors());
 app.use("/api", router);
 app.use(errorsHandlerMiddleware);
 

@@ -7,7 +7,8 @@
     "dev": "env-cmd -f .env.development nodemon ./server.ts",
     "start": "env-cmd -f .env.production node ./dist/server.js",
     "build": "npx tsc",
-    "seed:dev": "env-cmd -f .env.development ts-node ./app/seeds/seedEvents.ts"
+    "seed:dev": "env-cmd -f .env.development ts-node ./app/seeds/seedEvents.ts",
+    "seed:prod": "env-cmd -f .env.production ts-node ./app/seeds/seedEvents.ts"
   },
   "author": "",
   "license": "ISC",
